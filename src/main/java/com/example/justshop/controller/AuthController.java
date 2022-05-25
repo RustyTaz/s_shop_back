@@ -91,31 +91,31 @@ public class AuthController {
         Set<RoleEntity> roles = new HashSet<>();
 
         if (reqRoles == null) {
-            RoleEntity userRole = (RoleEntity) roleRepository
-                    .findByName(Role.CLIENT)
+            RoleEntity userRole = roleRepository
+                    .findByName(Role.ROLE_CLIENT)
                     .orElseThrow(() -> new RuntimeException("Error, Role USER is not found"));
             roles.add(userRole);
         } else {
             reqRoles.forEach(r -> {
                 switch (r) {
                     case "admin":
-                        RoleEntity adminRole = (RoleEntity) roleRepository
-                                .findByName(Role.ADMIN)
+                        RoleEntity adminRole = roleRepository
+                                .findByName(Role.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error, Role ADMIN is not found"));
                         roles.add(adminRole);
 
                         break;
                     case "mod":
-                        RoleEntity modRole = (RoleEntity) roleRepository
-                                .findByName(Role.MANAGER)
+                        RoleEntity modRole = roleRepository
+                                .findByName(Role.ROLE_MANAGER)
                                 .orElseThrow(() -> new RuntimeException("Error, Role MODERATOR is not found"));
                         roles.add(modRole);
 
                         break;
 
                     default:
-                        RoleEntity userRole = (RoleEntity) roleRepository
-                                .findByName(Role.CLIENT)
+                        RoleEntity userRole = roleRepository
+                                .findByName(Role.ROLE_CLIENT)
                                 .orElseThrow(() -> new RuntimeException("Error, Role USER is not found"));
                         roles.add(userRole);
                 }
