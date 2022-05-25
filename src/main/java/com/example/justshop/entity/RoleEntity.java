@@ -7,21 +7,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "users")
-public class UserEntity {
+@Table(name = "roles")
+public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private Role name;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
-    private Bucket bucket;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<OrderEntity> order;
 }
