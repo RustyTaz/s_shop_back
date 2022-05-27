@@ -18,6 +18,7 @@ public class Bucket {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+/*
     @OneToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
@@ -27,5 +28,6 @@ public class Bucket {
     joinColumns = @JoinColumn(name = "bucket_id"),
     inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<ProductEntity> productList;
+*/
 
 }

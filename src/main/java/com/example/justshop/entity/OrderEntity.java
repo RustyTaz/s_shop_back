@@ -27,11 +27,11 @@ public class OrderEntity {
     private LocalDateTime created;
     @UpdateTimestamp
     private LocalDateTime updated;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
-    private BigDecimal sum;
-    private String address;
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private UserEntity user;
+//    private BigDecimal sum;
+//    private String address;
+//    @Enumerated(EnumType.STRING)
+//    private OrderStatus status;
 }

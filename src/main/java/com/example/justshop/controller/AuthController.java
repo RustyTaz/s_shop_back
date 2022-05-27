@@ -45,28 +45,7 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
-    @PostMapping("/signin")
-    public ResponseEntity<?> authUser(@RequestBody LoginRequest loginRequest) {
 
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
-                        loginRequest.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                roles));
-    }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignupRequest signupRequest) {
@@ -93,7 +72,7 @@ public class AuthController {
         if (reqRoles == null) {
             RoleEntity userRole = roleRepository
                     .findByName(Role.ROLE_CLIENT)
-                    .orElseThrow(() -> new RuntimeException("Error, Role USER is not found"));
+                    .orElseThrow(() -> new RuntimeException("Error, Role CLIENT is not found"));
             roles.add(userRole);
         } else {
             reqRoles.forEach(r -> {
@@ -116,7 +95,7 @@ public class AuthController {
                     default:
                         RoleEntity userRole = roleRepository
                                 .findByName(Role.ROLE_CLIENT)
-                                .orElseThrow(() -> new RuntimeException("Error, Role USER is not found"));
+                                .orElseThrow(() -> new RuntimeException("Error, Role CLIENT is not found"));
                         roles.add(userRole);
                 }
             });
@@ -124,5 +103,29 @@ public class AuthController {
         user.setRoles(roles);
         userRespository.save(user);
         return ResponseEntity.ok(new MessageResponse("User CREATED"));
+    }
+
+
+    @PostMapping("/signin")
+    public ResponseEntity<?> authUser(@RequestBody LoginRequest loginRequest) {
+
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUsername(),
+                        loginRequest.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(new JwtResponse(jwt,
+                userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getEmail(),
+                roles));
     }
 }
