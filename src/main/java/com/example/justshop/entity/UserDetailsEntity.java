@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -17,10 +18,23 @@ import javax.persistence.*;
 public class UserDetailsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "user_id")
     private Long id;
-/*
-    @OneToOne(cascade = CascadeType.REMOVE)
+
+    private String name;
+    private String surname;
+    private String phone;
+    private String address;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "bucket_id", referencedColumnName = "id")
     private Bucket bucket;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user_")
-    private List<OrderEntity> order;*/
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<OrderEntity> order;
 }

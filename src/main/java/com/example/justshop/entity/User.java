@@ -22,11 +22,20 @@ public class User {
     private String username;
     private String email;
     private String password;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RoleEntity> roles = new HashSet<>();
+
+
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private UserDetailsEntity user;
+
+
 
     public User() {
     }
@@ -35,6 +44,16 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+
+
+    public UserDetailsEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserDetailsEntity user) {
+        this.user = user;
     }
 
     public Long getId() {
